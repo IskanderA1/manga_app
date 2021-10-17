@@ -8,4 +8,5 @@ part 'typography.dart';
 
 ThemeData themeDark = ThemeData(
   brightness: Brightness.dark,
+  fontFamily: 'Oswald',
 );

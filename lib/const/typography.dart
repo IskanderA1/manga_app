@@ -21,3 +21,9 @@ const kSubHeaderTextStyle = TextStyle(
   fontFamily: 'Oswald',
   fontSize: 16,
 );
+
+const kHeader4TextStyle = TextStyle(
+  fontFamily: 'Oswald',
+  fontSize: 14,
+  fontWeight: FontWeight.w300,
+);

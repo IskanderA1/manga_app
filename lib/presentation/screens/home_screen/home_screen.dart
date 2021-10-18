@@ -19,13 +19,21 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: kDarkBackgroundColor,
       body: BackgroundImageWidget(
-        child: Column(
+        child: ListView(
+          shrinkWrap: true,
           children: [
             const HomeAppBarWidget(title: 'Привет Akirah'),
             SearchWidget(
               onChanged: (search) {},
             ),
-            PromoSectionWidget(),
+            const PromoSectionWidget(
+              title: 'В тренде',
+            ),
+            const PromoSectionWidget(
+              title: 'Лето 🔥',
+              subTitle: 'Хочешь лета и летнего настроения? Скорее читай!',
+              color: kPurple200Color,
+            ),
           ],
         ),
       ),

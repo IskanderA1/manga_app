@@ -4,14 +4,23 @@ import 'package:manga_app/presentation/widgets/home_screen/ui/manga_item_widget.
 
 /// Виджет секции на главмно экрнае
 class PromoSectionWidget extends StatelessWidget {
-  const PromoSectionWidget({Key? key}) : super(key: key);
+  final Color? color;
+  final String title;
+  final String? subTitle;
+
+  const PromoSectionWidget({
+    Key? key,
+    required this.title,
+    this.subTitle,
+    this.color,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 16),
       padding: const EdgeInsets.only(bottom: 16),
-      color: Colors.transparent,
+      color: color ?? Colors.transparent,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -21,28 +30,26 @@ class PromoSectionWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
-                  'В тренде',
+                  title,
                   style: kHeader3TextStyle,
                 ),
-                Icon(
+                const Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 20,
                 )
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: Text(
-              'Хочешь лета и летнего настроения? Скорее читай!',
-              style: TextStyle(
-                  fontFamily: 'Oswald',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300),
+          if (subTitle != null)
+            Padding(
+              padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
+              child: Text(
+                subTitle!,
+                style: kHeader4TextStyle,
+              ),
             ),
-          ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(

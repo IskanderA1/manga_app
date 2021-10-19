@@ -4,34 +4,34 @@ import 'package:manga_app/presentation/widgets/general/placeholder_widget.dart';
 
 /// Виджет загрузки карочки манги
 class MangaItemPlaceholderWidget extends StatelessWidget {
-  const MangaItemPlaceholderWidget({Key? key}) : super(key: key);
+  final double width;
 
-  final double _width = 120;
-  final double _height = 160;
+  const MangaItemPlaceholderWidget({Key? key, this.width = 120})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: _width,
+      width: width,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           PlaceholderWidget(
-            width: _width,
-            height: _height,
+            width: width,
+            height: width * 1.25,
             borderRadius: kDefRadius,
           ),
           const SizedBox(height: 8),
           PlaceholderWidget(
-            width: _width,
-            height: 10,
+            width: width,
+            height: 11,
             borderRadius: kDefRadius,
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           PlaceholderWidget(
-            width: _width / 2,
-            height: 10,
+            width: width / 2,
+            height: 11,
             borderRadius: kDefRadius,
           ),
         ],

@@ -19,8 +19,8 @@ class PlaceholderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: kGrey300Color,
-      highlightColor: kLightGreyColor,
+      baseColor: kGrey300Color.withOpacity(0.7),
+      highlightColor: kLightGreyColor.withOpacity(0.74),
       child: Container(
         decoration: BoxDecoration(
           color: kGrey300Color,

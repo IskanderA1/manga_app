@@ -14,6 +14,8 @@ const kPurple300Color = Color(0xFFBB50B0);
 
 const kPurple200Color = Color(0xFFFF00CC);
 
+const kPurple450Color = Color(0xFF8649D2);
+
 const kDarkGreyColor = Colors.grey;
 
 final kGrey300Color = Colors.grey.shade300;

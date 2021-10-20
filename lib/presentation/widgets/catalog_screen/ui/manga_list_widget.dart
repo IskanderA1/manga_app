@@ -20,6 +20,7 @@ class MangaListWidget extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(16, 20, 16, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: List.generate(
           (manga.length / 2).ceil() + (isLoading ? 5 : 0),

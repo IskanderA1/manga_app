@@ -3,7 +3,7 @@ import 'package:manga_app/const/theme.dart';
 import 'package:manga_app/presentation/widgets/general/search_widget.dart';
 import 'package:manga_app/presentation/widgets/home_screen/ui/background_image_widget.dart';
 import 'package:manga_app/presentation/widgets/general/mr_header_widget.dart';
-import 'package:manga_app/presentation/widgets/home_screen/ui/manga_list_widget.dart';
+import 'package:manga_app/presentation/widgets/catalog_screen/ui/manga_list_widget.dart';
 
 /// Экран катлога манги
 class CatalogScreen extends StatefulWidget {

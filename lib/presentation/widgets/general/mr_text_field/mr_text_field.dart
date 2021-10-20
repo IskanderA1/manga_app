@@ -84,7 +84,7 @@ class _MRTextFieldState extends State<MRTextField> {
               }
               return const SizedBox();
             },
-            child:  Icon(
+            child:  const Icon(
               Icons.close,
               color: kDarkGreyColor,
             ),

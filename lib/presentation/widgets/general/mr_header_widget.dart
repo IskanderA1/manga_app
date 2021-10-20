@@ -17,9 +17,11 @@ class MRHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 70, 16, 16),
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 40, 16, 0),
+      height: 50,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,

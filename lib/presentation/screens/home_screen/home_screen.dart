@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const PromoSectionWidget(
               title: 'Лето 🔥',
               subTitle: 'Хочешь лета и летнего настроения? Скорее читай!',
-              color: kPurple200Color,
+              color: kPurple450Color,
             ),
           ],
         ),

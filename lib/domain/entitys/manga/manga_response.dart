@@ -1,0 +1,43 @@
+import 'package:equatable/equatable.dart';
+import 'package:manga_app/domain/entitys/manga/manga_model.dart';
+
+/// Респонз манги
+/// [manga] - список манги
+/// [totalPages] - общее кол-во страниц
+/// [page] - текущая страница
+/// [totalMangaItems] - кол-во манги которое мы можем получить с
+/// данными параметрами запроса
+class MangaResponse extends Equatable {
+  final List<MangaModel> manga;
+  final int totalPages;
+  final int page;
+  final int totalMangaItems;
+
+  const MangaResponse({
+    required this.manga,
+    required this.totalPages,
+    required this.page,
+    required this.totalMangaItems,
+  });
+
+  factory MangaResponse.fromJson(dynamic json) {
+    return MangaResponse(
+      manga: (json['content'] as List)
+          .map(
+            (e) => MangaModel.fromJson(e),
+          )
+          .toList(),
+      totalPages: json['props']['total_pages'],
+      page: json['props']['page'],
+      totalMangaItems: json['props']['total_items'],
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        manga,
+        totalPages,
+        page,
+        totalMangaItems,
+      ];
+}

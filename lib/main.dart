@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:manga_app/presentation/screens/main_screen.dart';
+import 'package:manga_app/data/core/locator_service.dart';
+import 'package:manga_app/data/repositories/metric_service.dart';
 import 'package:manga_app/presentation/screens/navigator/navigator.dart';
 import 'package:routemaster/routemaster.dart';
 
 import 'const/theme.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MetricService.init();
+  await initLocatorService();
   runApp(const MyApp());
 }
 

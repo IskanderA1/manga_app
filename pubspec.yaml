@@ -24,7 +24,7 @@ dependencies:
   fluttericon: ^2.0.0
   shimmer: ^2.0.0
   cached_network_image: ^3.1.0
-
+  flutter_keyboard_visibility: ^5.0.3
 
 dev_dependencies:
   flutter_test:

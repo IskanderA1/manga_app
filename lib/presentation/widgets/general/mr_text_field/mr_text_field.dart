@@ -10,6 +10,7 @@ class MRTextField extends StatefulWidget {
   final Function(String)? onChanged;
   final IconData? icon;
   final String? hintText;
+  final Function()? onDeleteTap;
 
   const MRTextField({
     Key? key,
@@ -20,6 +21,7 @@ class MRTextField extends StatefulWidget {
     this.icon,
     this.hintText,
     this.onChanged,
+    this.onDeleteTap,
   }) : super(key: key);
 
   @override
@@ -74,22 +76,24 @@ class _MRTextFieldState extends State<MRTextField> {
           hintText: widget.hintText,
           hintStyle: kTextFieldStyle.copyWith(color: kDarkGreyColor, height: 1),
           isCollapsed: true,
-          suffixIcon: ValueListenableBuilder<TextEditingValue>(
-            builder: (context, value, Widget? child) {
-              if (value.text.isNotEmpty) {
-                return InkWell(
-                  onTap: controller.clear,
-                  child: child,
-                );
-              }
-              return const SizedBox();
-            },
-            child:  const Icon(
-              Icons.close,
-              color: kDarkGreyColor,
-            ),
-            valueListenable: controller,
-          ),
+          suffixIcon: widget.onDeleteTap != null
+              ? ValueListenableBuilder<TextEditingValue>(
+                  builder: (context, value, Widget? child) {
+                    if (value.text.isNotEmpty) {
+                      return InkWell(
+                        onTap: controller.clear,
+                        child: child,
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                  child: InkWell(
+                    onTap: widget.onDeleteTap,
+                    child: const Icon(Icons.close, color: kDarkGreyColor),
+                  ),
+                  valueListenable: controller,
+                )
+              : null,
         ),
       ),
     );

@@ -33,6 +33,25 @@ class MangaResponse extends Equatable {
     );
   }
 
+  MangaResponse copyWith(int? page) {
+    return MangaResponse(
+      manga: manga,
+      totalPages: totalPages,
+      page: page ?? this.page,
+      totalMangaItems: totalMangaItems,
+    );
+  }
+
+  MangaResponse update(MangaResponse manga) {
+    this.manga.addAll(manga.manga);
+    return MangaResponse(
+      manga: this.manga,
+      totalPages: manga.totalPages,
+      page: manga.page,
+      totalMangaItems: manga.totalMangaItems,
+    );
+  }
+
   @override
   List<Object?> get props => [
         manga,

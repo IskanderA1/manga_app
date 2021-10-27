@@ -33,6 +33,8 @@ class SortModel extends Equatable {
 
   const SortModel(this.sortType, this.ascending);
 
+  static const SortModel defaultSort = SortModel(SortType.rating, true);
+
   @override
   List<Object?> get props => [sortType, ascending];
 }

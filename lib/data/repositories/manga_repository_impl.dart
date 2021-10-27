@@ -8,7 +8,7 @@ import 'package:manga_app/domain/repositories/manga_repository.dart';
 
 class MangaRepositoryImpl extends MangaRepository {
   static final _options = BaseOptions(
-    baseUrl: MangaRepository.mainUrl,
+    baseUrl: MangaRepository.mainApiUrl,
     connectTimeout: 5000,
     receiveTimeout: 3000,
   );
@@ -76,16 +76,19 @@ class MangaRepositoryImpl extends MangaRepository {
 
   @override
   Future<ResponseModel<MangaResponse>> getManga({
-    required List<FilterModel> filters,
-    SortModel? sort,
-    int page = 1,
+    required List<FilterModel> currentFilters,
+    SortModel? sortBy,
+    int? page,
   }) async {
-    final queryParameters = <String, dynamic>{'count': 30, 'page': page};
-    filters.forEach((element) {
+    final queryParameters = <String, dynamic>{
+      'count': 30,
+      'page': (page ?? 0) + 1,
+    };
+    for (var element in currentFilters) {
       queryParameters[element.type.value] = element.filterId;
-    });
-    if (sort != null) {
-      queryParameters['ordering'] = sort.sortType.value;
+    }
+    if (sortBy != null) {
+      queryParameters['ordering'] = sortBy.sortType.value;
     }
     try {
       final response = await _client.get(
@@ -127,11 +130,11 @@ class MangaRepositoryImpl extends MangaRepository {
   @override
   Future<ResponseModel<MangaResponse>> getMangaBySearchQ(
     String search, [
-    int page = 1,
+    int? page,
   ]) async {
     final queryParameters = <String, dynamic>{
       'count': 10,
-      'page': page,
+      'page': (page ?? 0) + 1,
       'query': search,
     };
 
@@ -152,8 +155,8 @@ class MangaRepositoryImpl extends MangaRepository {
       if (data['content'] != null && data['content'].isNotEmpty) {
         return ResponseModel.success(MangaResponse.fromJson(data));
       } else {
-        print("Не удалось загрузить манги");
-        return ResponseModel.error('"Не удалось загрузить манги');
+        print("По вашему запросу ничего не найдено");
+        return ResponseModel.error('По вашему запросу ничего не найдено');
       }
     } on DioError catch (error, stacktrace) {
       MetricService.sendEvent(

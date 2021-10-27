@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:manga_app/domain/entitys/manga/manga_model.dart';
+import 'package:manga_app/domain/repositories/manga_repository.dart';
 import 'package:manga_app/presentation/widgets/general/image_widget.dart';
 
 /// Виджет карточки манги отображется в списках каталога манги
 /// и в секциях на главном скрине
 class MangaItemWidget extends StatelessWidget {
+  final MangaModel manga;
   final double width;
 
-  const MangaItemWidget({Key? key, this.width = 120}) : super(key: key);
+  const MangaItemWidget({
+    Key? key,
+    this.width = 120,
+    required this.manga,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +24,12 @@ class MangaItemWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ImageWidget(
-            'https://api.remanga.org/media/titles/sssclass-hunter-strngthened-by-drawing/d9ee043a94fa569dc1490fbc08a8c853.jpg',
+            MangaRepository.mainUrl + manga.img,
             width: width,
             height: width * 1.25,
           ),
-          const Text(
-            'Мне предначертано стать Охотником SSS-класса',
+          Text(
+            manga.rusName,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),

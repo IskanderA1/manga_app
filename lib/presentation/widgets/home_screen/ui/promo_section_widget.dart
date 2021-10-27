@@ -50,21 +50,21 @@ class PromoSectionWidget extends StatelessWidget {
                 style: kHeader4TextStyle,
               ),
             ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(
-                6,
-                (index) {
-                  return Padding(
-                    padding:
-                        EdgeInsets.only(left: index == 0 ? 16 : 0, right: 16),
-                    child: MangaItemWidget(),
-                  );
-                },
-              ),
-            ),
-          )
+          // SingleChildScrollView(
+          //   scrollDirection: Axis.horizontal,
+          //   child: Row(
+          //     children: List.generate(
+          //       6,
+          //       (index) {
+          //         return Padding(
+          //           padding:
+          //               EdgeInsets.only(left: index == 0 ? 16 : 0, right: 16),
+          //           child: MangaItemWidget(),
+          //         );
+          //       },
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );

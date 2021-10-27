@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const MRHeaderWidget(title: 'Привет Akirah'),
             SearchWidget(
               onChanged: (search) {},
+              onDeleteTap: () {},
             ),
             const PromoSectionWidget(
               title: 'В тренде',

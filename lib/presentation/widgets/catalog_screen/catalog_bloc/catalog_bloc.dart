@@ -36,7 +36,7 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
     Emitter<CatalogState> emit,
   ) async {
     if (event.isClearLoad) {
-      manga = manga?.copyWith(1);
+      manga = null;
     }
     if (event.currentFilters != null) {
       currentFilters.clear();

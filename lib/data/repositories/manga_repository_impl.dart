@@ -21,18 +21,12 @@ class MangaRepositoryImpl extends MangaRepository {
 
   @override
   Future<ResponseModel<Map<FilterType, List<FilterModel>>>> getFilter() async {
-    final queryParameters = <String, dynamic>{
-      "get": "genres",
-      "get": "categories",
-      "get": "types",
-      "get": "status",
-      "get": "age_limit",
-    };
+    var queryParameters = '';
+    for (var element in FilterType.values) {
+      queryParameters += '${element.index != 0 ? '&' : ''}get=${element.value}';
+    }
     try {
-      final response = await _client.get(
-        filterEndpoint,
-        queryParameters: queryParameters,
-      );
+      final response = await _client.get(filterEndpoint + '?$queryParameters');
 
       var data = response.data;
       MetricService.sendEvent(
@@ -91,11 +85,12 @@ class MangaRepositoryImpl extends MangaRepository {
       queryParameters['ordering'] = sortBy.sortType.value;
     }
     try {
+//      print(queryParameters);
       final response = await _client.get(
         mangaEndpoint,
         queryParameters: queryParameters,
       );
-
+      //print(response);
       var data = response.data;
       MetricService.sendEvent(
         'getManga',
@@ -108,7 +103,7 @@ class MangaRepositoryImpl extends MangaRepository {
         return ResponseModel.success(MangaResponse.fromJson(data));
       } else {
         print("Не удалось загрузить манги");
-        return ResponseModel.error('"Не удалось загрузить манги');
+        return ResponseModel.error('Не удалось загрузить манги');
       }
     } on DioError catch (error, stacktrace) {
       MetricService.sendEvent(

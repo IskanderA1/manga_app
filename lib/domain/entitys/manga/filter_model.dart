@@ -10,7 +10,7 @@ enum FilterType {
 }
 
 extension FilterTypeExtension on FilterType {
-  /// Метод получения типа жанра
+  /// Метод получения значения типа
   String get value {
     switch (this) {
       case FilterType.genres:
@@ -23,6 +23,21 @@ extension FilterTypeExtension on FilterType {
         return 'status';
       case FilterType.ageLimit:
         return 'age_limit';
+    }
+  }
+  /// Метод получения имени типа
+  String get name {
+    switch (this) {
+      case FilterType.genres:
+        return 'Жанры';
+      case FilterType.categories:
+        return 'Категории';
+      case FilterType.types:
+        return 'Типы';
+      case FilterType.status:
+        return 'Статус';
+      case FilterType.ageLimit:
+        return 'Возрастной лимит';
     }
   }
 }

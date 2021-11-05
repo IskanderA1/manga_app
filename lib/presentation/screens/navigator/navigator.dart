@@ -14,6 +14,6 @@ final routes = RouteMap(routes: {
   '/home': (_) => const MaterialPage(child: HomeScreen()),
   '/catalog': (_) => const MaterialPage(child: CatalogScreen()),
   '/favorite': (_) => const MaterialPage(child: FavoriteMangaScreen()),
-  '/profile': (info) =>
-      MaterialPage(child: ProfileScreen(id: info.pathParameters['id'])),
+  '/profile': (data) =>
+      MaterialPage(child: ProfileScreen(id: data.pathParameters['id'])),
 });

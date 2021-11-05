@@ -22,8 +22,18 @@ const kSubHeaderTextStyle = TextStyle(
   fontSize: 16,
 );
 
+const kButtonTextStyle = TextStyle(
+  fontFamily: 'Oswald',
+  fontSize: 20,
+);
+
 const kHeader4TextStyle = TextStyle(
   fontFamily: 'Oswald',
   fontSize: 14,
+  fontWeight: FontWeight.w300,
+);
+const kBodyTextStyle = TextStyle(
+  fontFamily: 'Oswald',
+  fontSize: 12,
   fontWeight: FontWeight.w300,
 );

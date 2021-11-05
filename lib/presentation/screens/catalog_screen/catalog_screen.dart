@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:manga_app/const/theme.dart';
 import 'package:manga_app/data/core/locator_service.dart';
+import 'package:manga_app/domain/entitys/manga/filter_model.dart';
+import 'package:manga_app/presentation/screens/catalog_screen/catalog_filter_screen.dart';
+import 'package:manga_app/presentation/widgets/catalog_screen/catalog_bloc/catalog_bloc.dart';
+import 'package:manga_app/presentation/widgets/general/mr_icon_button_widget.dart';
 import 'package:manga_app/presentation/widgets/general/search_widget.dart';
-import 'package:manga_app/presentation/widgets/home_screen/catalog_screen/catalog_bloc/catalog_bloc.dart';
 import 'package:manga_app/presentation/widgets/home_screen/ui/background_image_widget.dart';
 import 'package:manga_app/presentation/widgets/general/mr_header_widget.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/ui/manga_list_widget.dart';
@@ -69,10 +73,44 @@ class _CatalogScreenState extends State<CatalogScreen> {
                 controller: scrollController,
                 shrinkWrap: true,
                 children: [
-                  const MRHeaderWidget(
+                  MRHeaderWidget(
                     title: 'Каталог',
-                    hasFilter: true,
-                    hasSort: true,
+                    actions: [
+                      MRIconButtonWidget(
+                        onPressed: () {},
+                        icon: const Icon(
+                          FontAwesome5.sort_amount_down,
+                          size: 20,
+                        ),
+                        isActive: true,
+                      ),
+                      MRIconButtonWidget(
+                        onPressed: () async {
+                          final result =
+                              await Navigator.of(context, rootNavigator: true)
+                                  .push(
+                            MaterialPageRoute(
+                              builder: (context) => CatalogFilterScreen(
+                                currentFilters: List.of(state.currentFilters),
+                                filters: state.filters!,
+                              ),
+                            ),
+                          );
+                          if (result is List<FilterModel>) {
+                            bloc.add(
+                              LoadMangaCatalogEvent(
+                                currentFilters: result,
+                                isClearLoad: true,
+                              ),
+                            );
+                          }
+                        },
+                        icon: const Icon(FontAwesome5.filter),
+                        isActive: state.currentFilters.isNotEmpty
+                            ? state.mangaBySearch == null
+                            : null,
+                      ),
+                    ],
                   ),
                   SearchWidget(
                     controller: searchController,

@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 /// Виджет с составным фоном из изображений
 class BackgroundImageWidget extends StatelessWidget {
   final Widget child;
+  final List<Widget>? children;
 
   const BackgroundImageWidget({
     Key? key,
     required this.child,
+    this.children,
   }) : super(key: key);
 
   @override
@@ -28,7 +30,8 @@ class BackgroundImageWidget extends StatelessWidget {
           left: -50,
           child: Image.asset('assets/images/back_img3.png'),
         ),
-        Positioned.fill(child: child),
+        Positioned.fill(child: SafeArea(child: child)),
+        if (children != null) ...children!
       ],
     );
   }

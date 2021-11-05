@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manga_app/domain/entitys/manga/manga_model.dart';
-import 'package:manga_app/presentation/widgets/home_screen/ui/manga_item_placeholder_widget.dart';
-import 'package:manga_app/presentation/widgets/home_screen/ui/manga_item_widget.dart';
+import 'package:manga_app/presentation/widgets/catalog_screen/ui/manga_item_placeholder_widget.dart';
+import 'package:manga_app/presentation/widgets/catalog_screen/ui/manga_item_widget.dart';
 
 /// Виджет списка манги
 class MangaListWidget extends StatelessWidget {

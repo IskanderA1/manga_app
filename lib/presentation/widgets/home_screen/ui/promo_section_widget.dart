@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:manga_app/const/theme.dart';
-import 'package:manga_app/presentation/widgets/home_screen/ui/manga_item_widget.dart';
 
 /// Виджет секции на главмно экрнае
 class PromoSectionWidget extends StatelessWidget {

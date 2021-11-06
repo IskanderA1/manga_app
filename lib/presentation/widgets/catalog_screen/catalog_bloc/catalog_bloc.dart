@@ -96,9 +96,9 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
     final response = await repository.getFilter();
     if (response.hasData) {
       filters = response.data!;
-      add(const LoadMangaCatalogEvent(
+      add(LoadMangaCatalogEvent(
         isClearLoad: true,
-        sortBy: SortModel.defaultSort,
+        sortBy: sortBy,
         currentFilters: [],
       ));
     } else {

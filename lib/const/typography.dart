@@ -6,6 +6,10 @@ const kHeader1TextStyle = TextStyle(
   fontFamily: 'BeerMoney',
   fontSize: 30,
 );
+const kHeader2TextStyle = TextStyle(
+  fontFamily: 'BeerMoney',
+  fontSize: 22,
+);
 
 const kTextFieldStyle = TextStyle(
   fontFamily: 'Oswald',

@@ -5,8 +5,10 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:manga_app/const/theme.dart';
 import 'package:manga_app/data/core/locator_service.dart';
 import 'package:manga_app/domain/entitys/manga/filter_model.dart';
+import 'package:manga_app/domain/entitys/manga/sort_model.dart';
 import 'package:manga_app/presentation/screens/catalog_screen/catalog_filter_screen.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/catalog_bloc/catalog_bloc.dart';
+import 'package:manga_app/presentation/widgets/catalog_screen/ui/sort_bottom_sheet_widget.dart';
 import 'package:manga_app/presentation/widgets/general/mr_icon_button_widget.dart';
 import 'package:manga_app/presentation/widgets/general/search_widget.dart';
 import 'package:manga_app/presentation/widgets/home_screen/ui/background_image_widget.dart';
@@ -25,11 +27,15 @@ class _CatalogScreenState extends State<CatalogScreen> {
   final bloc = locator<CatalogBloc>();
   final scrollController = ScrollController();
   final searchController = TextEditingController();
+  late final ValueNotifier<SortModel> sortController;
 
   @override
   void initState() {
     super.initState();
     bloc.add(const InitMangaCatalogEvent());
+    sortController = ValueNotifier<SortModel>(bloc.sortBy);
+
+    sortController.addListener(_updateSort);
     scrollController.addListener(_updateListener);
     searchController.addListener(_searchListener);
   }
@@ -38,8 +44,10 @@ class _CatalogScreenState extends State<CatalogScreen> {
   void dispose() {
     searchController.removeListener(_searchListener);
     scrollController.removeListener(_updateListener);
+    sortController.removeListener(_updateSort);
     scrollController.dispose();
     searchController.dispose();
+    sortController.dispose();
     super.dispose();
   }
 
@@ -48,7 +56,7 @@ class _CatalogScreenState extends State<CatalogScreen> {
       if (bloc.state.mangaBySearch != null) {
         bloc.add(LoadMangaCatalogBySearchEvent(query: searchController.text));
       } else {
-        bloc.add(const LoadMangaCatalogEvent());
+        bloc.add(LoadMangaCatalogEvent());
       }
     }
   }
@@ -57,6 +65,13 @@ class _CatalogScreenState extends State<CatalogScreen> {
     if (searchController.text.isEmpty) {
       bloc.add(const LoadMangaCatalogBySearchEvent(query: ''));
     }
+  }
+
+  void _updateSort() {
+    bloc.add(LoadMangaCatalogEvent(
+      isClearLoad: true,
+      sortBy: sortController.value,
+    ));
   }
 
   @override
@@ -76,13 +91,25 @@ class _CatalogScreenState extends State<CatalogScreen> {
                   MRHeaderWidget(
                     title: 'Каталог',
                     actions: [
-                      MRIconButtonWidget(
-                        onPressed: () {},
-                        icon: const Icon(
-                          FontAwesome5.sort_amount_down,
-                          size: 20,
-                        ),
-                        isActive: true,
+                      ValueListenableBuilder<SortModel>(
+                        valueListenable: sortController,
+                        builder: (context, value, _) {
+                          return MRIconButtonWidget(
+                            onPressed: () {
+                              showSortBottomSheetWidget(
+                                context,
+                                sortController,
+                              );
+                            },
+                            icon: const Icon(
+                              FontAwesome5.sort_amount_down,
+                              size: 20,
+                            ),
+                            isActive: state.sortBy != SortModel.defaultSort
+                                ? state.mangaBySearch == null
+                                : null,
+                          );
+                        },
                       ),
                       MRIconButtonWidget(
                         onPressed: () async {

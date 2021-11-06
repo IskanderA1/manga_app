@@ -6,6 +6,9 @@ enum SortType {
   id,
   random,
   chapters,
+  chapterDate,
+  votes,
+  views,
 }
 
 extension SortTypeExtension on SortType {
@@ -20,6 +23,31 @@ extension SortTypeExtension on SortType {
         return 'random';
       case SortType.chapters:
         return 'count_chapters';
+      case SortType.chapterDate:
+        return 'chapter_date';
+      case SortType.votes:
+        return 'votes';
+      case SortType.views:
+        return 'views';
+    }
+  }
+
+  String get name {
+    switch (this) {
+      case SortType.rating:
+        return 'По популярности';
+      case SortType.id:
+        return 'По новизне';
+      case SortType.random:
+        return 'Случайно';
+      case SortType.chapters:
+        return 'По количеству глав';
+      case SortType.chapterDate:
+        return 'По дате обновления';
+      case SortType.votes:
+        return 'По лайкам';
+      case SortType.views:
+        return 'По просмотрам';
     }
   }
 }
@@ -33,7 +61,17 @@ class SortModel extends Equatable {
 
   const SortModel(this.sortType, this.ascending);
 
-  static const SortModel defaultSort = SortModel(SortType.rating, true);
+  static const SortModel defaultSort = SortModel(SortType.rating, false);
+
+  SortModel copyWith({
+    SortType? sortType,
+    bool? ascending,
+  }) {
+    return SortModel(
+      sortType ?? this.sortType,
+      ascending ?? this.ascending,
+    );
+  }
 
   @override
   List<Object?> get props => [sortType, ascending];

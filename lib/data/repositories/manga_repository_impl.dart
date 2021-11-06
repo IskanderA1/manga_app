@@ -82,7 +82,8 @@ class MangaRepositoryImpl extends MangaRepository {
       queryParameters[element.type.value] = element.filterId;
     }
     if (sortBy != null) {
-      queryParameters['ordering'] = sortBy.sortType.value;
+      queryParameters['ordering'] =
+          '${sortBy.ascending ? '' : '-'}${sortBy.sortType.value}';
     }
     try {
 //      print(queryParameters);

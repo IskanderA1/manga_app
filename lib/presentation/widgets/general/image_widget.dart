@@ -9,12 +9,14 @@ class ImageWidget extends StatelessWidget {
   final double width;
   final double height;
   final String imageUrl;
+  final BoxFit fit;
 
   const ImageWidget(
     this.imageUrl, {
     Key? key,
     this.width = 120,
     this.height = 160,
+    this.fit = BoxFit.fitWidth,
   }) : super(key: key);
 
   @override
@@ -25,7 +27,7 @@ class ImageWidget extends StatelessWidget {
         imageUrl: imageUrl,
         width: width,
         height: height,
-        fit: BoxFit.fitWidth,
+        fit: fit,
         placeholder: (_, url) {
           return PlaceholderWidget(
             width: width,

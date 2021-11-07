@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:manga_app/domain/entitys/manga/filter_model.dart';
-import 'package:manga_app/domain/entitys/manga/manga_response.dart';
-import 'package:manga_app/domain/entitys/manga/sort_model.dart';
+import 'package:manga_app/domain/entitys/catalog/filter_model.dart';
+import 'package:manga_app/domain/entitys/catalog/manga_response.dart';
+import 'package:manga_app/domain/entitys/catalog/sort_model.dart';
 import 'package:manga_app/domain/repositories/manga_repository.dart';
 
 part 'catalog_event.dart';

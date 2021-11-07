@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:manga_app/domain/entitys/manga/filter_model.dart';
+import 'package:manga_app/domain/entitys/catalog/filter_model.dart';
 import 'package:manga_app/const/theme.dart';
 
 class FilterItemWidget extends StatelessWidget {

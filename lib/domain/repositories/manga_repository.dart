@@ -1,7 +1,8 @@
 import 'package:manga_app/domain/entitys/core/response_model.dart';
-import 'package:manga_app/domain/entitys/manga/filter_model.dart';
-import 'package:manga_app/domain/entitys/manga/manga_response.dart';
-import 'package:manga_app/domain/entitys/manga/sort_model.dart';
+import 'package:manga_app/domain/entitys/catalog/filter_model.dart';
+import 'package:manga_app/domain/entitys/catalog/manga_response.dart';
+import 'package:manga_app/domain/entitys/catalog/sort_model.dart';
+import 'package:manga_app/domain/entitys/manga/manga_detail_model.dart';
 
 abstract class MangaRepository {
   static const mainUrl = 'https://api.remanga.org';
@@ -22,4 +23,7 @@ abstract class MangaRepository {
     String search,
     int? page,
   );
+
+  /// Метод получения детализации манги
+  Future<ResponseModel<MangaDetailModel>> getMangaDetail(String titleName);
 }

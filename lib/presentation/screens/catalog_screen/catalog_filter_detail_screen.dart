@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:manga_app/const/extensions.dart';
-import 'package:manga_app/domain/entitys/manga/filter_model.dart';
+import 'package:manga_app/domain/entitys/catalog/filter_model.dart';
 import 'package:manga_app/const/theme.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/ui/filter_detail_item_widget.dart';
 import 'package:manga_app/presentation/widgets/general/mr_button_widget.dart';
 import 'package:manga_app/presentation/widgets/general/mr_header_widget.dart';
 import 'package:manga_app/presentation/widgets/home_screen/ui/background_image_widget.dart';
 
+/// Экран детализации фильтров.
+/// Отображает возможные для применения фильтры
 class CatalogFilterDetailScreen extends StatefulWidget {
   final FilterType filterType;
   final List<FilterModel> currentFilters;

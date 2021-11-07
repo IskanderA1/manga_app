@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:manga_app/domain/entitys/manga/manga_model.dart';
+import 'package:manga_app/domain/entitys/catalog/manga_model.dart';
 
 /// Респонз манги
 /// [manga] - список манги

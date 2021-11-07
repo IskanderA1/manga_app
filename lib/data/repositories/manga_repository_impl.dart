@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:manga_app/data/repositories/metric_service.dart';
 import 'package:manga_app/domain/entitys/core/response_model.dart';
-import 'package:manga_app/domain/entitys/manga/filter_model.dart';
-import 'package:manga_app/domain/entitys/manga/manga_response.dart';
-import 'package:manga_app/domain/entitys/manga/sort_model.dart';
+import 'package:manga_app/domain/entitys/catalog/filter_model.dart';
+import 'package:manga_app/domain/entitys/catalog/manga_response.dart';
+import 'package:manga_app/domain/entitys/catalog/sort_model.dart';
+import 'package:manga_app/domain/entitys/manga/manga_detail_model.dart';
 import 'package:manga_app/domain/repositories/manga_repository.dart';
 
 class MangaRepositoryImpl extends MangaRepository {
@@ -16,6 +17,7 @@ class MangaRepositoryImpl extends MangaRepository {
   static const filterEndpoint = '/forms/titles';
   static const mangaEndpoint = '/search/catalog';
   static const mangaSearchEndpoint = '/search';
+  static const mangaDetailEndpoint = '/titles';
 
   final _client = Dio(_options);
 
@@ -157,6 +159,46 @@ class MangaRepositoryImpl extends MangaRepository {
     } on DioError catch (error, stacktrace) {
       MetricService.sendEvent(
         'getMangaBySearchQError',
+        attributes: {
+          'error': error.message.substring(0, 200),
+        },
+      );
+      final String errorText = error.response?.data['msg'] ?? '';
+      if (errorText.isNotEmpty) {
+        print(errorText);
+        return ResponseModel.error(errorText);
+      }
+      print("Ошибка подключения к серверу\n $stacktrace");
+      return ResponseModel.error('Ошибка подключения к серверу');
+    }
+  }
+
+  @override
+  Future<ResponseModel<MangaDetailModel>> getMangaDetail(
+    String titleName,
+  ) async {
+    try {
+      final response = await _client.get('$mangaDetailEndpoint/$titleName');
+
+      var data = response.data;
+      MetricService.sendEvent(
+        'getMangaDetail',
+        attributes: {
+          'dataNotNull': data['content'] != null && data['content'].isNotEmpty,
+          'msg': data['msg'],
+        },
+      );
+      if (data['content'] != null) {
+        return ResponseModel.success(
+          MangaDetailModel.fromJson(data['content']),
+        );
+      } else {
+        print("По вашему запросу ничего не найдено");
+        return ResponseModel.error('По вашему запросу ничего не найдено');
+      }
+    } on DioError catch (error, stacktrace) {
+      MetricService.sendEvent(
+        'getMangaDetailError',
         attributes: {
           'error': error.message.substring(0, 200),
         },

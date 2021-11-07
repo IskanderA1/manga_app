@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manga_app/const/theme.dart';
-import 'package:manga_app/domain/entitys/manga/sort_model.dart';
+import 'package:manga_app/domain/entitys/catalog/sort_model.dart';
 import 'package:manga_app/presentation/widgets/general/mr_radio_button_widget.dart';
 
 /// Шторка сортировки манги

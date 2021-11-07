@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:manga_app/data/core/locator_service.dart';
-import 'package:manga_app/domain/entitys/manga/filter_model.dart';
+import 'package:manga_app/domain/entitys/catalog/filter_model.dart';
 import 'package:manga_app/presentation/screens/catalog_screen/catalog_filter_detail_screen.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/filter_bloc/catalog_filter_bloc.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/ui/filter_item_widget.dart';
@@ -10,6 +10,8 @@ import 'package:manga_app/presentation/widgets/general/mr_header_widget.dart';
 import 'package:manga_app/presentation/widgets/home_screen/ui/background_image_widget.dart';
 import 'package:manga_app/const/theme.dart';
 
+/// Экран Фильтра. Отображает все досутупные для
+/// применения типы фильтров
 class CatalogFilterScreen extends StatefulWidget {
   final List<FilterModel> currentFilters;
   final Map<FilterType, List<FilterModel>> filters;

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:manga_app/const/extensions.dart';
-import 'package:manga_app/domain/entitys/manga/filter_model.dart';
+import 'package:manga_app/domain/entitys/catalog/filter_model.dart';
 import 'package:manga_app/domain/repositories/manga_repository.dart';
 
 part 'catalog_filter_event.dart';

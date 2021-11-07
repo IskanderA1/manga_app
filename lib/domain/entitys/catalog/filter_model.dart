@@ -25,6 +25,7 @@ extension FilterTypeExtension on FilterType {
         return 'age_limit';
     }
   }
+
   /// Метод получения имени типа
   String get name {
     switch (this) {
@@ -52,6 +53,32 @@ class FilterModel extends Equatable {
 
   factory FilterModel.fromJson(FilterType type, dynamic json) {
     return FilterModel(type, json['id'], json['name']);
+  }
+
+  static FilterModel? tryFromJson(String type, dynamic json) {
+    final filterType = FilterType.values.where((e) => e.value == type);
+    if (filterType.isNotEmpty) {
+      return FilterModel(filterType.first, json['id'], json['name']);
+    }
+    return null;
+  }
+
+  static List<FilterModel> fromJsonList(String type, dynamic json) {
+    final filterType = FilterType.values.where((e) => e.value == type);
+    final result = <FilterModel>[];
+    if (filterType.isNotEmpty) {
+      for (var element in List.of(json)) {
+        result.add(FilterModel.fromJson(filterType.first, element));
+      }
+    }
+    return result;
+  }
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = filterId;
+    map['name'] = name;
+    return map;
   }
 
   @override

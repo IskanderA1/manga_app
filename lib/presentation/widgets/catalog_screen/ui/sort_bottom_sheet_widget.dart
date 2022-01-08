@@ -30,7 +30,7 @@ void showSortBottomSheetWidget(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      const Text('Сортировка', style: kHeader2TextStyle),
+                      const Text('Сортировка', style: kHeader4TextStyle),
                       ...List.generate(
                         SortType.values.length,
                         (index) {

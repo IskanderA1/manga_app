@@ -1,24 +1,40 @@
 part of 'theme.dart';
 
 /// Типографика
-
 const kHeader1TextStyle = TextStyle(
+  fontFamily: 'BeerMoney',
+  fontSize: 36,
+);
+
+const kHeader2TextStyle = TextStyle(
   fontFamily: 'BeerMoney',
   fontSize: 30,
 );
-const kHeader2TextStyle = TextStyle(
+
+const kHeader3TextStyle = TextStyle(
+  fontFamily: 'BeerMoney',
+  fontSize: 28,
+);
+
+const kHeader4TextStyle = TextStyle(
   fontFamily: 'BeerMoney',
   fontSize: 22,
+);
+
+const kHeader5TextStyle = TextStyle(
+  fontFamily: 'Oswald',
+  fontSize: 22,
+);
+
+const kHeader6TextStyle = TextStyle(
+  fontFamily: 'Oswald',
+  fontSize: 14,
+  fontWeight: FontWeight.w300,
 );
 
 const kTextFieldStyle = TextStyle(
   fontFamily: 'Oswald',
   fontSize: 14,
-);
-
-const kHeader3TextStyle = TextStyle(
-  fontFamily: 'Oswald',
-  fontSize: 22,
 );
 
 const kSubHeaderTextStyle = TextStyle(
@@ -31,11 +47,6 @@ const kButtonTextStyle = TextStyle(
   fontSize: 20,
 );
 
-const kHeader4TextStyle = TextStyle(
-  fontFamily: 'Oswald',
-  fontSize: 14,
-  fontWeight: FontWeight.w300,
-);
 const kBodyTextStyle = TextStyle(
   fontFamily: 'Oswald',
   fontSize: 12,

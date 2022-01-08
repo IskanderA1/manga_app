@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:manga_app/const/util.dart';
 import 'package:manga_app/domain/entitys/catalog/filter_model.dart';
 import 'package:manga_app/domain/entitys/manga/branch_model.dart';
 import 'package:manga_app/domain/entitys/manga/publisher_model.dart';
@@ -34,6 +35,7 @@ class MangaDetailModel extends Equatable {
   });
 
   factory MangaDetailModel.fromJson(dynamic json) {
+    final clearDesc = clearHtmlTag(json['description'] ?? '');
     return MangaDetailModel(
       id: json['id'] ?? 0,
       img: json['img']['high'] ?? '',
@@ -41,7 +43,7 @@ class MangaDetailModel extends Equatable {
       rusName: json['rus_name'] ?? '',
       anotherName: json['another_name'] ?? '',
       dir: json['dir'] ?? '',
-      description: json['description'] ?? '',
+      description: clearDesc,
       issueYear: json['issue_year'],
       avgRating: json['avg_rating'] ?? '',
       adminRating: json['admin_rating'] ?? '',

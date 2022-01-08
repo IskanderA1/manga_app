@@ -15,12 +15,11 @@ class PlaceholderWidget extends StatelessWidget {
     this.borderRadius = BorderRadius.zero,
   }) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: kGrey300Color.withOpacity(0.7),
-      highlightColor: kLightGreyColor.withOpacity(0.74),
+      baseColor: kGrey300Color.withOpacity(0.65),
+      highlightColor: kLightGreyColor.withOpacity(0.8),
       child: Container(
         decoration: BoxDecoration(
           color: kGrey300Color,

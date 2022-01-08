@@ -66,7 +66,7 @@ class _CatalogFilterScreenState extends State<CatalogFilterScreen> {
                             : null,
                         child: Text(
                           'Сбросить',
-                          style: kHeader4TextStyle.copyWith(
+                          style: kHeader6TextStyle.copyWith(
                             color: kGrey400Color,
                           ),
                         ),

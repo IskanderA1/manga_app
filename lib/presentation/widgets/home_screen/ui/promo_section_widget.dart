@@ -32,7 +32,7 @@ class PromoSectionWidget extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: kHeader3TextStyle,
+                  style: kHeader5TextStyle,
                 ),
                 const Icon(
                   Icons.arrow_forward_ios_rounded,
@@ -46,7 +46,7 @@ class PromoSectionWidget extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(16, 0, 16, 12),
               child: Text(
                 subTitle!,
-                style: kHeader4TextStyle,
+                style: kHeader6TextStyle,
               ),
             ),
           // SingleChildScrollView(

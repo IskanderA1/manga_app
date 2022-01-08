@@ -7,6 +7,8 @@ class MRButtonWidget extends StatelessWidget {
   final Widget child;
   final ShapeBorder shape;
   final bool isDisable;
+  final EdgeInsets? padding;
+
   static const defaultBorder = RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(50)),
   );
@@ -17,6 +19,7 @@ class MRButtonWidget extends StatelessWidget {
     required this.child,
     this.shape = defaultBorder,
     this.isDisable = false,
+    this.padding,
   }) : super(key: key);
 
   factory MRButtonWidget.smallButton({
@@ -49,7 +52,7 @@ class MRButtonWidget extends StatelessWidget {
       color: kPurple200Color,
       disabledTextColor: kWhiteColor,
       disabledColor: isDisable ? kDarkGreyColor : kPurple200Color,
-      padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+      padding: padding ?? const EdgeInsets.fromLTRB(16, 8, 16, 8),
     );
   }
 }

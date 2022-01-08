@@ -11,7 +11,6 @@ import 'package:manga_app/presentation/widgets/catalog_screen/catalog_bloc/catal
 import 'package:manga_app/presentation/widgets/catalog_screen/ui/sort_bottom_sheet_widget.dart';
 import 'package:manga_app/presentation/widgets/general/mr_icon_button_widget.dart';
 import 'package:manga_app/presentation/widgets/general/search_widget.dart';
-import 'package:manga_app/presentation/widgets/home_screen/ui/background_image_widget.dart';
 import 'package:manga_app/presentation/widgets/general/mr_header_widget.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/ui/manga_list_widget.dart';
 
@@ -83,99 +82,96 @@ class _CatalogScreenState extends State<CatalogScreen> {
         builder: (context, state) {
           return Scaffold(
             backgroundColor: kDarkBackgroundColor,
-            body: BackgroundImageWidget(
-              child: ListView(
-                controller: scrollController,
-                shrinkWrap: true,
-                children: [
-                  MRHeaderWidget(
-                    title: 'Каталог',
-                    actions: [
-                      ValueListenableBuilder<SortModel>(
-                        valueListenable: sortController,
-                        builder: (context, value, _) {
-                          return MRIconButtonWidget(
-                            onPressed: () {
-                              showSortBottomSheetWidget(
-                                context,
-                                sortController,
-                              );
-                            },
-                            icon: const Icon(
-                              FontAwesome5.sort_amount_down,
-                              size: 20,
-                            ),
-                            isActive: state.sortBy != SortModel.defaultSort
-                                ? state.mangaBySearch == null
-                                : null,
-                          );
-                        },
-                      ),
-                      MRIconButtonWidget(
-                        onPressed: () async {
-                          final result =
-                              await Navigator.of(context, rootNavigator: true)
-                                  .push(
-                            MaterialPageRoute(
-                              builder: (context) => CatalogFilterScreen(
-                                currentFilters: List.of(state.currentFilters),
-                                filters: state.filters!,
-                              ),
-                            ),
-                          );
-                          if (result is List<FilterModel>) {
-                            bloc.add(
-                              LoadMangaCatalogEvent(
-                                currentFilters: result,
-                                isClearLoad: true,
-                              ),
+            body: ListView(
+              controller: scrollController,
+              shrinkWrap: true,
+              children: [
+                MRHeaderWidget(
+                  title: 'Каталог',
+                  actions: [
+                    ValueListenableBuilder<SortModel>(
+                      valueListenable: sortController,
+                      builder: (context, value, _) {
+                        return MRIconButtonWidget(
+                          onPressed: () {
+                            showSortBottomSheetWidget(
+                              context,
+                              sortController,
                             );
-                          }
-                        },
-                        icon: const Icon(FontAwesome5.filter),
-                        isActive: state.currentFilters.isNotEmpty
-                            ? state.mangaBySearch == null
-                            : null,
-                      ),
-                    ],
-                  ),
-                  SearchWidget(
-                    controller: searchController,
-                    onChanged: (search) {
-                      if (search.length > 2) {
-                        bloc.add(
-                          LoadMangaCatalogBySearchEvent(query: search),
+                          },
+                          icon: const Icon(
+                            FontAwesome5.sort_amount_down,
+                            size: 20,
+                          ),
+                          isActive: state.sortBy != SortModel.defaultSort
+                              ? state.mangaBySearch == null
+                              : null,
                         );
-                      }
-                    },
-                    onDeleteTap: () {
-                      bloc.add(
-                        const LoadMangaCatalogBySearchEvent(query: ''),
-                      );
-                      searchController.clear();
-                    },
-                  ),
-                  if (state.isLoading ||
-                      state.manga != null ||
-                      state.mangaBySearch != null)
-                    MangaListWidget(
-                      manga: state.mangaBySearch?.manga ??
-                          state.manga?.manga ??
-                          [],
-                      isLoading: state.isLoading,
-                    )
-                  else
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                        24,
-                        size.height / 3.4,
-                        24,
-                        0,
-                      ),
-                      child: Center(child: Text(state.error ?? '')),
+                      },
                     ),
-                ],
-              ),
+                    MRIconButtonWidget(
+                      onPressed: () async {
+                        final result =
+                            await Navigator.of(context, rootNavigator: true)
+                                .push(
+                          MaterialPageRoute(
+                            builder: (context) => CatalogFilterScreen(
+                              currentFilters: List.of(state.currentFilters),
+                              filters: state.filters!,
+                            ),
+                          ),
+                        );
+                        if (result is List<FilterModel>) {
+                          bloc.add(
+                            LoadMangaCatalogEvent(
+                              currentFilters: result,
+                              isClearLoad: true,
+                            ),
+                          );
+                        }
+                      },
+                      icon: const Icon(FontAwesome5.filter),
+                      isActive: state.currentFilters.isNotEmpty
+                          ? state.mangaBySearch == null
+                          : null,
+                    ),
+                  ],
+                ),
+                SearchWidget(
+                  controller: searchController,
+                  onChanged: (search) {
+                    if (search.length > 2) {
+                      bloc.add(
+                        LoadMangaCatalogBySearchEvent(query: search),
+                      );
+                    }
+                  },
+                  onDeleteTap: () {
+                    bloc.add(
+                      const LoadMangaCatalogBySearchEvent(query: ''),
+                    );
+                    searchController.clear();
+                  },
+                ),
+                if (state.isLoading ||
+                    state.manga != null ||
+                    state.mangaBySearch != null)
+                  MangaListWidget(
+                    manga:
+                        state.mangaBySearch?.manga ?? state.manga?.manga ?? [],
+                    isLoading: state.isLoading,
+                  )
+                else
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      24,
+                      size.height / 3.4,
+                      24,
+                      0,
+                    ),
+                    child: Center(child: Text(state.error ?? '')),
+                  ),
+              ],
             ),
           );
         },

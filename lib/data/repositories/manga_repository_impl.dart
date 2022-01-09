@@ -4,7 +4,9 @@ import 'package:manga_app/domain/entitys/core/response_model.dart';
 import 'package:manga_app/domain/entitys/catalog/filter_model.dart';
 import 'package:manga_app/domain/entitys/catalog/manga_response.dart';
 import 'package:manga_app/domain/entitys/catalog/sort_model.dart';
+import 'package:manga_app/domain/entitys/manga/manga_chapter_model.dart';
 import 'package:manga_app/domain/entitys/manga/manga_detail_model.dart';
+import 'package:manga_app/domain/entitys/manga/page_model.dart';
 import 'package:manga_app/domain/repositories/manga_repository.dart';
 
 class MangaRepositoryImpl extends MangaRepository {
@@ -18,6 +20,7 @@ class MangaRepositoryImpl extends MangaRepository {
   static const mangaEndpoint = '/search/catalog';
   static const mangaSearchEndpoint = '/search';
   static const mangaDetailEndpoint = '/titles';
+  static const mangaChaptersEndpoint = '/titles/chapters';
 
   final _client = Dio(_options);
 
@@ -199,6 +202,92 @@ class MangaRepositoryImpl extends MangaRepository {
     } on DioError catch (error, stacktrace) {
       MetricService.sendEvent(
         'getMangaDetailError',
+        attributes: {
+          'error': error.message.substring(0, 200),
+        },
+      );
+      final String errorText = error.response?.data['msg'] ?? '';
+      if (errorText.isNotEmpty) {
+        print(errorText);
+        return ResponseModel.error(errorText);
+      }
+      print("Ошибка подключения к серверу\n $stacktrace");
+      return ResponseModel.error('Ошибка подключения к серверу');
+    }
+  }
+
+  @override
+  Future<ResponseModel<List<MangaChapterModel>>> getChaptersByManga(
+    int branchId,
+  ) async {
+    try {
+      final response = await _client.get(
+        mangaChaptersEndpoint,
+        queryParameters: {'branch_id': branchId},
+      );
+
+      var data = response.data;
+      MetricService.sendEvent(
+        'getChaptersByManga',
+        attributes: {
+          'dataNotNull': data['content'] != null && data['content'].isNotEmpty,
+          'msg': data['msg'],
+        },
+      );
+      if (data['content'] != null) {
+        return ResponseModel.success((data['content'] as List)
+            .map((e) => MangaChapterModel.fromJson(e))
+            .toList());
+      } else {
+        print("Не удалось загрузить главы манги");
+        return ResponseModel.error('Не удалось загрузить главы манги');
+      }
+    } on DioError catch (error, stacktrace) {
+      MetricService.sendEvent(
+        'getChaptersByMangaError',
+        attributes: {
+          'error': error.message.substring(0, 200),
+        },
+      );
+      final String errorText = error.response?.data['msg'] ?? '';
+      if (errorText.isNotEmpty) {
+        print(errorText);
+        return ResponseModel.error(errorText);
+      }
+      print("Ошибка подключения к серверу\n $stacktrace");
+      return ResponseModel.error('Ошибка подключения к серверу');
+    }
+  }
+
+  @override
+  Future<ResponseModel<List<PageModel>>> getPagesByChapters(
+    int chapterId,
+  ) async {
+    try {
+      final response = await _client.get('$mangaChaptersEndpoint/$chapterId');
+
+      var data = response.data;
+      MetricService.sendEvent(
+        'getPagesByChapters',
+        attributes: {
+          'dataNotNull': data['content']['pages'] != null &&
+              data['content']['pages'].isNotEmpty,
+          'msg': data['msg'],
+        },
+      );
+      if (data['content'] != null && data['content']['pages'].isNotEmpty) {
+        return ResponseModel.success(
+          (data['content']['pages'] as List)
+              .map((e) => PageModel.fromJson(e))
+              .toList(),
+        );
+      } else {
+        print("Не удалось загрузить страницы манги");
+        return ResponseModel.error('Не удалось загрузить страницы манги');
+      }
+    } on DioError catch (error, stacktrace) {
+      MetricService.sendEvent(
+        'getPagesByChaptersError',
         attributes: {
           'error': error.message.substring(0, 200),
         },

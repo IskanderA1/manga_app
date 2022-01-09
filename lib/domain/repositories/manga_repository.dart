@@ -1,3 +1,5 @@
+import 'package:manga_app/domain/entitys/manga/manga_chapter_model.dart';
+import 'package:manga_app/domain/entitys/manga/page_model.dart';
 import 'package:manga_app/domain/entitys/core/response_model.dart';
 import 'package:manga_app/domain/entitys/catalog/filter_model.dart';
 import 'package:manga_app/domain/entitys/catalog/manga_response.dart';
@@ -26,4 +28,12 @@ abstract class MangaRepository {
 
   /// Метод получения детализации манги
   Future<ResponseModel<MangaDetailModel>> getMangaDetail(String titleName);
+
+  /// Метод получения всех глав манги
+  Future<ResponseModel<List<MangaChapterModel>>> getChaptersByManga(
+    int branchId,
+  );
+
+  /// Метод получения страниц конкретной главы
+  Future<ResponseModel<List<PageModel>>> getPagesByChapters(int chapterId);
 }

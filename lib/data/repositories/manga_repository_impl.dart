@@ -276,10 +276,17 @@ class MangaRepositoryImpl extends MangaRepository {
         },
       );
       if (data['content'] != null && data['content']['pages'].isNotEmpty) {
+        final list = data['content']['pages'] as List;
+        final clearList = [];
+        for (var e in list) {
+          if (e is List) {
+            clearList.addAll(e);
+          } else {
+            clearList.add(e);
+          }
+        }
         return ResponseModel.success(
-          (data['content']['pages'] as List)
-              .map((e) => PageModel.fromJson(e))
-              .toList(),
+          clearList.map((e) => PageModel.fromJson(e)).toList(),
         );
       } else {
         print("Не удалось загрузить страницы манги");
@@ -289,7 +296,7 @@ class MangaRepositoryImpl extends MangaRepository {
       MetricService.sendEvent(
         'getPagesByChaptersError',
         attributes: {
-          'error': error.message.substring(0, 200),
+          'error': error.message,
         },
       );
       final String errorText = error.response?.data['msg'] ?? '';

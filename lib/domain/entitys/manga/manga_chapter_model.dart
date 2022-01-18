@@ -2,55 +2,36 @@ import 'package:equatable/equatable.dart';
 import 'package:manga_app/domain/entitys/manga/page_model.dart';
 import 'package:manga_app/domain/entitys/manga/publisher_model.dart';
 
-class MangaChapterBaseModel extends Equatable {
-  final int id;
-  final List<PageModel> pages;
-  final bool isLoading;
-
-  const MangaChapterBaseModel(this.id, this.pages, [this.isLoading = false]);
-
-  MangaChapterBaseModel copyWith({
-    List<PageModel>? pages,
-    bool? isLoading,
-  }) {
-    return MangaChapterBaseModel(
-      id,
-      pages ?? this.pages,
-      isLoading ?? this.isLoading,
-    );
-  }
-
-  @override
-  List<Object?> get props => [id, pages, isLoading];
-}
-
 /// Модель главы манги
-class MangaChapterModel extends MangaChapterBaseModel {
+class MangaChapterModel extends Equatable {
+  final int id;
   final int tome;
   final String chapter;
-  final String uploadDate;
+  final String? uploadDate;
   final bool? isPaid;
   final bool? isBought;
   final List<PublisherModel> publishers;
-  final int index;
+  final int? index;
 
   const MangaChapterModel({
-    required int id,
+    required this.id,
     required this.tome,
     required this.index,
     required this.chapter,
     required this.uploadDate,
     required this.publishers,
-    required List<PageModel> pages,
     this.isPaid,
     this.isBought,
-    bool isLoading = false,
-  }) : super(id, pages, isLoading);
+  });
 
   factory MangaChapterModel.fromJson(dynamic json) {
-    final publishers =
-        json['publishers'] != null ? json['publishers'] as List : [];
-    final pages = json['pages'] != null ? json['pages'] as List : [];
+    final publishers = json['publishers'] != null
+        ? (json['publishers'] as List).isNotEmpty
+            ? (json['publishers'] as List).first['id'] != null
+                ? (json['publishers'] as List)
+                : []
+            : []
+        : [];
     return MangaChapterModel(
       id: json['id'],
       tome: json['tome'],
@@ -59,7 +40,6 @@ class MangaChapterModel extends MangaChapterBaseModel {
       isPaid: json['is_paid'],
       isBought: json['is_bought'],
       publishers: publishers.map((i) => PublisherModel.fromJson(i)).toList(),
-      pages: pages.map((i) => PageModel.fromJson(i)).toList(),
       index: json['index'],
     );
   }
@@ -73,7 +53,6 @@ class MangaChapterModel extends MangaChapterBaseModel {
     map['is_paid'] = isPaid;
     map['is_bought'] = isBought;
     map['publishers'] = publishers.map((v) => v.toJson()).toList();
-    map['pages'] = pages.map((v) => v.toJson()).toList();
     map['index'] = index;
     return map;
   }
@@ -92,8 +71,6 @@ class MangaChapterModel extends MangaChapterBaseModel {
       isPaid: isPaid,
       isBought: isBought,
       publishers: publishers,
-      pages: pages ?? this.pages,
-      isLoading: isLoading ?? this.isLoading,
     );
   }
 
@@ -104,10 +81,8 @@ class MangaChapterModel extends MangaChapterBaseModel {
         chapter,
         uploadDate,
         publishers,
-        pages,
         index,
         isPaid,
         isBought,
-        isLoading,
       ];
 }

@@ -2,6 +2,8 @@ part of 'theme.dart';
 
 ///Радиусы
 
+final BorderRadius kZeroRadius = BorderRadius.circular(0);
+
 final BorderRadius kDefRadius = BorderRadius.circular(8);
 
 final BorderRadius kRadius1 = BorderRadius.circular(24);

@@ -47,6 +47,11 @@ const kButtonTextStyle = TextStyle(
   fontSize: 20,
 );
 
+const kSmallButtonTextStyle = TextStyle(
+  fontFamily: 'Oswald',
+  fontSize: 18,
+);
+
 const kBodyTextStyle = TextStyle(
   fontFamily: 'Oswald',
   fontSize: 12,

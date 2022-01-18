@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class PageModel extends Equatable {
-  final int id;
+  final String id;
   final String link;
   final int page;
 
@@ -13,7 +13,7 @@ class PageModel extends Equatable {
 
   factory PageModel.fromJson(dynamic json) {
     return PageModel(
-      id: json['id'],
+      id: json['id'].toString(),
       link: json['link'],
       page: json['page'],
     );

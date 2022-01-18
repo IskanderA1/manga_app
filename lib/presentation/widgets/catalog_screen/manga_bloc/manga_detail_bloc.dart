@@ -28,7 +28,6 @@ class MangaDetailBloc extends Bloc<MangaDetailEvent, MangaDetailState> {
     final response = await repository.getMangaDetail(titleName);
     if (response.hasData) {
       manga = response.data;
-      print(manga);
       emit(MangaDetailState(manga: response.data));
     } else {
       emit(MangaDetailState(manga: manga, error: response.error));

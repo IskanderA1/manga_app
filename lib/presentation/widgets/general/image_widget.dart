@@ -15,43 +15,70 @@ class ImageWidget extends StatelessWidget {
   const ImageWidget(
     this.imageUrl, {
     Key? key,
-    this.width,
-    this.height,
+    this.width = 120,
+    this.height = 160,
+    this.placeholderHeight,
+    this.placeholderWidth,
     this.fit = BoxFit.fitWidth,
     this.borderRadius,
+    this.useCash = true,
   }) : super(key: key);
-
-  final double _width = 120;
-  final double _height = 160;
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: borderRadius ?? kDefRadius,
       child: imageUrl != null
-          ? CachedNetworkImage(
-              imageUrl: imageUrl!,
-              width: width ?? _width,
-              height: height ?? _height,
-              fit: fit,
-              placeholder: (_, url) {
-                return PlaceholderWidget(
-                  width: width ?? _width,
-                  height: height ?? _height,
-                );
-              },
-              errorWidget: (_, url, error) {
-                return Image.asset(
-                  'assets/images/error_anime.jpeg',
-                  width: width ?? _width,
-                  height: height ?? _height,
-                  fit: BoxFit.cover,
-                );
-              },
-            )
+          ? useCash
+              ? CachedNetworkImage(
+                  imageUrl: imageUrl!,
+                  width: width,
+                  height: height,
+                  fit: fit,
+                  placeholder: (_, url) {
+                    return PlaceholderWidget(
+                      width: placeholderWidth ?? width ?? 120,
+                      height: placeholderHeight ?? height ?? 160,
+                    );
+                  },
+                  errorWidget: (_, url, error) {
+                    return Image.asset(
+                      'assets/images/error_anime.jpeg',
+                      width: width,
+                      height: height,
+                      fit: BoxFit.cover,
+                    );
+                  },
+                )
+              : Image.network(
+                  imageUrl!,
+                  width: width,
+                  height: height,
+                  fit: fit,
+                  frameBuilder: (_, child, __, ___) {
+                    return child;
+                  },
+                  loadingBuilder: (_, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return PlaceholderWidget(
+                      width: placeholderWidth ?? width ?? 120,
+                      height: placeholderHeight ?? height ?? 160,
+                    );
+                  },
+                  errorBuilder: (_, __, ___) {
+                    return Image.asset(
+                      'assets/images/error_anime.jpeg',
+                      width: width,
+                      height: height,
+                      fit: BoxFit.cover,
+                    );
+                  },
+                )
           : PlaceholderWidget(
-              width: width ?? _width,
-              height: height ?? _height,
+              width: placeholderWidth ?? width ?? 120,
+              height: placeholderHeight ?? height ?? 160,
             ),
     );
   }

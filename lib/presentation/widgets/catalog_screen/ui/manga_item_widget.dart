@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:manga_app/const/theme.dart';
 import 'package:manga_app/domain/entitys/catalog/manga_model.dart';
 import 'package:manga_app/domain/repositories/manga_repository.dart';
+import 'package:manga_app/presentation/screens/navigator/navigator.dart';
 import 'package:manga_app/presentation/widgets/general/image_widget.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -21,7 +22,7 @@ class MangaItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Routemaster.of(context).push('/manga/${manga.dir}');
+        Routemaster.of(context).push('$kMangaRoute/${manga.dir}');
       },
       child: Stack(
         clipBehavior: Clip.none,

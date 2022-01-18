@@ -4,10 +4,12 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:manga_app/const/theme.dart';
 import 'package:manga_app/data/core/locator_service.dart';
 import 'package:manga_app/domain/repositories/manga_repository.dart';
+import 'package:manga_app/presentation/screens/navigator/navigator.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/manga_bloc/manga_detail_bloc.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/ui/manga_screen/label_widget.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/ui/manga_screen/manga_detail_app_bar_widget.dart';
 import 'package:manga_app/presentation/widgets/general/mr_button_widget.dart';
+import 'package:routemaster/routemaster.dart';
 
 /// Экран детализации манги
 class MangaDetailScreen extends StatefulWidget {
@@ -153,63 +155,72 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                 ],
               ),
             ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 70,
-                padding: const EdgeInsets.only(bottom: 16, top: 8),
-                decoration: const BoxDecoration(
-                  borderRadius: kRadius1Top,
-                  color: kDarkBackgroundColor,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    MRButtonWidget(
-                      onPressed: () {},
-                      child: Row(
-                        children: const [
-                          Text(
-                            'Главы',
-                            style: kButtonTextStyle,
-                          ),
-                          SizedBox(width: 6),
-                          Padding(
-                            padding: EdgeInsets.only(top: 3),
-                            child: Icon(
-                              Icons.format_list_bulleted,
-                              size: 24,
+            if (manga != null && manga.branches.isNotEmpty)
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 70,
+                  padding: const EdgeInsets.only(bottom: 16, top: 8),
+                  decoration: const BoxDecoration(
+                    borderRadius: kRadius1Top,
+                    color: kDarkBackgroundColor,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      MRButtonWidget(
+                        onPressed: () {},
+                        child: Row(
+                          children: const [
+                            Text(
+                              'Главы',
+                              style: kSmallButtonTextStyle,
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    MRButtonWidget(
-                      onPressed: () {},
-                      child: Row(
-                        children: const [
-                          Text(
-                            'Читать',
-                            style: kButtonTextStyle,
-                          ),
-                          SizedBox(width: 6),
-                          Padding(
-                            padding: EdgeInsets.only(top: 3),
-                            child: Icon(
-                              FontAwesome.book,
-                              size: 23,
+                            SizedBox(width: 6),
+                            Padding(
+                              padding: EdgeInsets.only(top: 3),
+                              child: Icon(
+                                Icons.format_list_bulleted,
+                                size: 24,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      if (manga.firstChapter != null &&
+                          manga.branches.isNotEmpty)
+                        MRButtonWidget(
+                          onPressed: () {
+                            Routemaster.of(context).push(
+                              '$kMangaRoute/${manga.dir}?'
+                              'chapter_id=${manga.firstChapter!.id}&'
+                              'branch_id=${manga.branches.first.id}',
+                            );
+                          },
+                          child: Row(
+                            children: const [
+                              Text(
+                                'Читать',
+                                style: kSmallButtonTextStyle,
+                              ),
+                              SizedBox(width: 6),
+                              Padding(
+                                padding: EdgeInsets.only(top: 3),
+                                child: Icon(
+                                  FontAwesome.book,
+                                  size: 23,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-            )
+              )
           ],
         );
       },

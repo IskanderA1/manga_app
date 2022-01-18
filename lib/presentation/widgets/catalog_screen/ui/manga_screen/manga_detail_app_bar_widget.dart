@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manga_app/const/theme.dart';
 import 'package:manga_app/presentation/widgets/general/image_widget.dart';
+import 'package:manga_app/presentation/widgets/general/mr_back_button_widget.dart';
 
 /// Sliver App Bar для экрана детализации манги
 class MangaDetailAppBarWidget extends SliverPersistentHeaderDelegate {
@@ -26,24 +27,10 @@ class MangaDetailAppBarWidget extends SliverPersistentHeaderDelegate {
           fit: BoxFit.cover,
           borderRadius: kRadius1Bottom,
         ),
-        Positioned(
+        const Positioned(
           top: 32,
           left: -8,
-          child: RawMaterialButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            elevation: 0,
-            highlightElevation: 0,
-            fillColor: kBlackColor.withOpacity(.5),
-            child: const Icon(
-              Icons.arrow_back_ios,
-              size: 24.0,
-              color: kWhiteColor,
-            ),
-            padding: const EdgeInsets.fromLTRB(18, 8, 8, 8),
-            shape: const CircleBorder(),
-          ),
+          child: BackButtonWidget(),
         ),
       ],
     );

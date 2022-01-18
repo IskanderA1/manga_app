@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manga_app/presentation/screens/catalog_screen/catalog_screen.dart';
+import 'package:manga_app/presentation/screens/catalog_screen/manga_reader_screen/manga_reader_screen.dart';
 import 'package:manga_app/presentation/screens/catalog_screen/manga_screen/manga_screen.dart';
 import 'package:manga_app/presentation/screens/favorite_manga_screen/favorite_manga_screen.dart';
 import 'package:manga_app/presentation/screens/home_screen/home_screen.dart';
@@ -36,9 +37,23 @@ final routes = RouteMap(routes: {
   kHomeRoute: (_) => const MaterialPage(child: HomeScreen()),
   kCatalogRoute: (_) => const MaterialPage(child: CatalogScreen()),
   kFavoriteRoute: (_) => const MaterialPage(child: FavoriteMangaScreen()),
-  kProfileRoute: (data) =>
-      MaterialPage(child: ProfileScreen(id: data.pathParameters['id'])),
-  '$kMangaRoute/:id': (data) => MaterialPage(
-        child: MangaDetailScreen(titleName: data.pathParameters['id'] ?? ''),
+  kProfileRoute: (data) => MaterialPage(
+        child: ProfileScreen(id: data.pathParameters['id']),
       ),
+  '$kMangaRoute/:id': (data) {
+    if (data.queryParameters['chapter_id'] != null &&
+        data.queryParameters['branch_id'] != null) {
+      return MaterialPage(
+        child: MangaReaderScreen(
+          branchId: int.parse(data.queryParameters['branch_id'].toString()),
+          chapterId: int.parse(data.queryParameters['chapter_id'].toString()),
+        ),
+      );
+    }
+    return MaterialPage(
+      child: MangaDetailScreen(
+        titleName: data.pathParameters['id'] ?? '',
+      ),
+    );
+  },
 });

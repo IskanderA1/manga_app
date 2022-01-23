@@ -4,6 +4,7 @@ import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:manga_app/const/theme.dart';
 import 'package:manga_app/data/core/locator_service.dart';
 import 'package:manga_app/domain/repositories/manga_repository.dart';
+import 'package:manga_app/presentation/screens/catalog_screen/manga_reader_screen/manga_chapters_screen.dart';
 import 'package:manga_app/presentation/screens/navigator/navigator.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/manga_bloc/manga_detail_bloc.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/ui/manga_screen/label_widget.dart';
@@ -148,14 +149,19 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                               style: kTextFieldStyle,
                             ),
                           ),
-                          const SizedBox(height: 70),
+                          if (((manga.branches.isNotEmpty &&
+                                  manga.firstChapter != null ||
+                              manga.countChapters != 0)))
+                            const SizedBox(height: 80),
                         ],
                       ),
                     )
                 ],
               ),
             ),
-            if (manga != null && manga.branches.isNotEmpty)
+            if (manga != null &&
+                manga.branches.isNotEmpty &&
+                (manga.firstChapter != null || manga.countChapters != 0))
               Positioned(
                 bottom: 0,
                 left: 0,
@@ -163,33 +169,60 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                 child: Container(
                   height: 70,
                   padding: const EdgeInsets.only(bottom: 16, top: 8),
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     borderRadius: kRadius1Top,
                     color: kDarkBackgroundColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: kPurple200Color.withOpacity(.5),
+                        spreadRadius: 8,
+                        blurRadius: 12,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      MRButtonWidget(
-                        onPressed: () {},
-                        child: Row(
-                          children: const [
-                            Text(
-                              'Главы',
-                              style: kSmallButtonTextStyle,
-                            ),
-                            SizedBox(width: 6),
-                            Padding(
-                              padding: EdgeInsets.only(top: 3),
-                              child: Icon(
-                                Icons.format_list_bulleted,
-                                size: 24,
+                      if (manga.countChapters != 0)
+                        MRButtonWidget(
+                          onPressed: () async {
+                            final result =
+                                await Navigator.of(context, rootNavigator: true)
+                                    .push(
+                              MaterialPageRoute(
+                                builder: (context) => MangaChaptersScreen(
+                                  branchId: manga.branches.first.id,
+                                  name: manga.rusName,
+                                ),
                               ),
-                            ),
-                          ],
+                            );
+                            if (result is int) {
+                              Routemaster.of(context).push(
+                                '$kMangaRoute/${manga.dir}?'
+                                'chapter_id=$result&'
+                                'branch_id=${manga.branches.first.id}',
+                              );
+                            }
+                          },
+                          child: Row(
+                            children: const [
+                              Text(
+                                'Главы',
+                                style: kSmallButtonTextStyle,
+                              ),
+                              SizedBox(width: 6),
+                              Padding(
+                                padding: EdgeInsets.only(top: 3),
+                                child: Icon(
+                                  Icons.format_list_bulleted,
+                                  size: 24,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                       if (manga.firstChapter != null &&
                           manga.branches.isNotEmpty)
                         MRButtonWidget(

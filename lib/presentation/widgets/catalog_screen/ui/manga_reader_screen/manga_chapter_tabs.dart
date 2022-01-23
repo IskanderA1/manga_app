@@ -6,11 +6,13 @@ import 'package:manga_app/presentation/widgets/catalog_screen/ui/manga_reader_sc
 class MangaChapterTabsScreen extends StatefulWidget {
   final List<MangaChapterModel> chapters;
   final int initialIndex;
+  final int branchId;
 
   const MangaChapterTabsScreen({
     Key? key,
     required this.chapters,
     required this.initialIndex,
+    required this.branchId,
   }) : super(key: key);
 
   @override
@@ -54,11 +56,18 @@ class _MangaChapterTabsScreenState extends State<MangaChapterTabsScreen>
             ),
           ),
         ),
-         Positioned(
+        Positioned(
           top: 36,
           right: 18,
           child: MangaChapterInfoWidget(
             tabController: _tabController,
+            getIndex: (int chapterId) {
+              final result = widget.chapters.indexWhere(
+                (e) => e.id == chapterId,
+              );
+              return result != -1 ? result : 0;
+            },
+            branchId: widget.branchId,
           ),
         ),
       ],

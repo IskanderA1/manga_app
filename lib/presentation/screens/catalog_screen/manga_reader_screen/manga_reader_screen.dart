@@ -55,6 +55,7 @@ class _MangaReaderScreenState extends State<MangaReaderScreen> {
                         Positioned.fill(
                           child: MangaChapterTabsScreen(
                             chapters: state.chapters,
+                            branchId: widget.branchId,
                             initialIndex: state.getIndexById(widget.chapterId),
                           ),
                         ),

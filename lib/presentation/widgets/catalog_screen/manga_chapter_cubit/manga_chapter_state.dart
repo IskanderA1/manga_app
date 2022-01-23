@@ -12,7 +12,7 @@ class MangaChapterState extends Equatable {
   });
 
   int getIndexById(int chapterId) {
-    final result = chapters.indexWhere((e) => e.index == chapterId);
+    final result = chapters.indexWhere((e) => e.id == chapterId);
     return result != -1 ? result : 0;
   }
 

@@ -5,6 +5,7 @@ import 'package:manga_app/data/core/locator_service.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/manga_chapter_cubit/manga_chapter_cubit.dart';
 import 'package:manga_app/presentation/widgets/general/mr_header_widget.dart';
 import 'package:manga_app/presentation/widgets/general/placeholder_widget.dart';
+import 'package:manga_app/presentation/widgets/home_screen/ui/background_image_widget.dart';
 
 /// Экран списка глав манги. Отображает все досутупные для
 /// чтения главы
@@ -44,59 +45,61 @@ class _MangaChaptersScreenState extends State<MangaChaptersScreen> {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: kDarkBackgroundColor,
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                MRHeaderWidget(
-                  title: widget.name,
-                  centerTitle: true,
-                  hasBackButton: true,
-                ),
-                ...List.generate(
-                  state.isLoading ? 16 : state.chapters.length,
-                  (index) {
-                    if (state.chapters.isEmpty && !state.isLoading) {
-                      return const Center(
-                        child: Text(
-                          'Не удалось загрузить главы',
-                          style: kSubHeaderTextStyle,
+          body: BackgroundImageWidget(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  MRHeaderWidget(
+                    title: widget.name,
+                    centerTitle: true,
+                    hasBackButton: true,
+                  ),
+                  ...List.generate(
+                    state.isLoading ? 16 : state.chapters.length,
+                    (index) {
+                      if (state.chapters.isEmpty && !state.isLoading) {
+                        return const Center(
+                          child: Text(
+                            'Не удалось загрузить главы',
+                            style: kSubHeaderTextStyle,
+                          ),
+                        );
+                      }
+                      return InkWell(
+                        onTap: state.isLoading
+                            ? null
+                            : () => Navigator.pop(
+                                  context,
+                                  state.chapters[index].id,
+                                ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ListTile(
+                              title: state.isLoading
+                                  ? PlaceholderWidget(
+                                      height: 24,
+                                      borderRadius: BorderRadius.circular(24),
+                                    )
+                                  : Text(
+                                      'Глава ${state.chapters[index].chapter}',
+                                      style: kTextFieldStyle,
+                                    ),
+                              trailing: state.isLoading
+                                  ? null
+                                  : const Icon(Icons.chevron_right),
+                            ),
+                            const Divider(
+                              height: 1,
+                              color: kWhiteColor,
+                            ),
+                          ],
                         ),
                       );
-                    }
-                    return InkWell(
-                      onTap: state.isLoading
-                          ? null
-                          : () => Navigator.pop(
-                                context,
-                                state.chapters[index].id,
-                              ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ListTile(
-                            title: state.isLoading
-                                ? PlaceholderWidget(
-                                    height: 24,
-                                    borderRadius: BorderRadius.circular(24),
-                                  )
-                                : Text(
-                                    'Глава ${state.chapters[index].chapter}',
-                                    style: kTextFieldStyle,
-                                  ),
-                            trailing: state.isLoading
-                                ? null
-                                : const Icon(Icons.chevron_right),
-                          ),
-                          const Divider(
-                            height: 1,
-                            color: kWhiteColor,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                )
-              ],
+                    },
+                  )
+                ],
+              ),
             ),
           ),
         );

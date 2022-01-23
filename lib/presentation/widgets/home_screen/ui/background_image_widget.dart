@@ -30,7 +30,7 @@ class BackgroundImageWidget extends StatelessWidget {
           left: -50,
           child: Image.asset('assets/images/back_img3.png'),
         ),
-        Positioned.fill(child: SafeArea(child: child)),
+        Positioned.fill(child: child),
         if (children != null) ...children!
       ],
     );

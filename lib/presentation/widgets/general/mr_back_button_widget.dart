@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:manga_app/const/theme.dart';
 
 class BackButtonWidget extends StatelessWidget {
-  const BackButtonWidget({Key? key}) : super(key: key);
+  final VoidCallback? onBack;
+
+  const BackButtonWidget({Key? key, this.onBack}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: () {
-        Navigator.pop(context);
+        if (onBack != null) {
+          onBack!();
+        } else {
+          Navigator.pop(context);
+        }
       },
       elevation: 0,
       highlightElevation: 0,

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
@@ -166,91 +168,85 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: Container(
-                  height: 70,
-                  padding: const EdgeInsets.only(bottom: 16, top: 8),
-                  decoration: BoxDecoration(
-                    borderRadius: kRadius1Top,
-                    color: kDarkBackgroundColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: kPurple200Color.withOpacity(.5),
-                        spreadRadius: 8,
-                        blurRadius: 12,
-                        offset: const Offset(0, 3),
+                child: ClipRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 7),
+                    child: Container(
+                      height: 70,
+                      padding: const EdgeInsets.only(bottom: 16, top: 10),
+                      color: kDarkBackgroundColor.withOpacity(.5),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          if (manga.countChapters != 0)
+                            MRButtonWidget(
+                              onPressed: () async {
+                                final result =
+                                    await Navigator.of(context, rootNavigator: true)
+                                        .push(
+                                  MaterialPageRoute(
+                                    builder: (context) => MangaChaptersScreen(
+                                      branchId: manga.branches.first.id,
+                                      name: manga.rusName,
+                                    ),
+                                  ),
+                                );
+                                if (result is int) {
+                                  Routemaster.of(context).push(
+                                    '$kMangaReadRoute?'
+                                    'chapter_id=$result&'
+                                    'branch_id=${manga.branches.first.id}',
+                                  );
+                                }
+                              },
+                              child: Row(
+                                children: const [
+                                  Text(
+                                    'Главы',
+                                    style: kSmallButtonTextStyle,
+                                  ),
+                                  SizedBox(width: 6),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 3),
+                                    child: Icon(
+                                      Icons.format_list_bulleted,
+                                      size: 24,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (manga.firstChapter != null &&
+                              manga.branches.isNotEmpty)
+                            MRButtonWidget(
+                              onPressed: () {
+                                Routemaster.of(context).push(
+                                  '$kMangaReadRoute?'
+                                  'chapter_id=${manga.firstChapter!.id}&'
+                                  'branch_id=${manga.branches.first.id}',
+                                );
+                              },
+                              child: Row(
+                                children: const [
+                                  Text(
+                                    'Читать',
+                                    style: kSmallButtonTextStyle,
+                                  ),
+                                  SizedBox(width: 6),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 3),
+                                    child: Icon(
+                                      FontAwesome.book,
+                                      size: 23,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      if (manga.countChapters != 0)
-                        MRButtonWidget(
-                          onPressed: () async {
-                            final result =
-                                await Navigator.of(context, rootNavigator: true)
-                                    .push(
-                              MaterialPageRoute(
-                                builder: (context) => MangaChaptersScreen(
-                                  branchId: manga.branches.first.id,
-                                  name: manga.rusName,
-                                ),
-                              ),
-                            );
-                            if (result is int) {
-                              Routemaster.of(context).push(
-                                '$kMangaRoute/${manga.dir}?'
-                                'chapter_id=$result&'
-                                'branch_id=${manga.branches.first.id}',
-                              );
-                            }
-                          },
-                          child: Row(
-                            children: const [
-                              Text(
-                                'Главы',
-                                style: kSmallButtonTextStyle,
-                              ),
-                              SizedBox(width: 6),
-                              Padding(
-                                padding: EdgeInsets.only(top: 3),
-                                child: Icon(
-                                  Icons.format_list_bulleted,
-                                  size: 24,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      if (manga.firstChapter != null &&
-                          manga.branches.isNotEmpty)
-                        MRButtonWidget(
-                          onPressed: () {
-                            Routemaster.of(context).push(
-                              '$kMangaRoute/${manga.dir}?'
-                              'chapter_id=${manga.firstChapter!.id}&'
-                              'branch_id=${manga.branches.first.id}',
-                            );
-                          },
-                          child: Row(
-                            children: const [
-                              Text(
-                                'Читать',
-                                style: kSmallButtonTextStyle,
-                              ),
-                              SizedBox(width: 6),
-                              Padding(
-                                padding: EdgeInsets.only(top: 3),
-                                child: Icon(
-                                  FontAwesome.book,
-                                  size: 23,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                    ],
+                    ),
                   ),
                 ),
               )

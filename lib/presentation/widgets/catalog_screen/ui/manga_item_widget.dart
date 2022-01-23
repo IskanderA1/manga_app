@@ -22,7 +22,7 @@ class MangaItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Routemaster.of(context).push('$kMangaRoute/${manga.dir}');
+        Routemaster.of(context).push('$kMangaRoute?id=${manga.dir}');
       },
       child: Stack(
         clipBehavior: Clip.none,

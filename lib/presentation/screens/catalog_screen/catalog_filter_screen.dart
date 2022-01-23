@@ -75,30 +75,25 @@ class _CatalogFilterScreenState extends State<CatalogFilterScreen> {
                   ),
                   ...List.generate(
                     bloc.filterTypes.length,
-                    (index) => Padding(
-                      padding: EdgeInsets.only(
-                        top: index != 0 ? 8 : 16,
-                      ),
-                      child: FilterItemWidget(
-                        filter: bloc.filterTypes[index],
-                        currentFilters: state.currentFilters,
-                        onTap: () async {
-                          final type = bloc.filterTypes[index];
-                          final result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) {
-                              return CatalogFilterDetailScreen(
-                                filters: bloc.filters[type] ?? [],
-                                filterType: type,
-                                currentFilters: state.currentFilters,
-                              );
-                            }),
-                          );
-                          if (result != null && result is List<FilterModel>) {
-                            bloc.add(UpdateFilterEvent(result, type));
-                          }
-                        },
-                      ),
+                    (index) => FilterItemWidget(
+                      filter: bloc.filterTypes[index],
+                      currentFilters: state.currentFilters,
+                      onTap: () async {
+                        final type = bloc.filterTypes[index];
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return CatalogFilterDetailScreen(
+                              filters: bloc.filters[type] ?? [],
+                              filterType: type,
+                              currentFilters: state.currentFilters,
+                            );
+                          }),
+                        );
+                        if (result != null && result is List<FilterModel>) {
+                          bloc.add(UpdateFilterEvent(result, type));
+                        }
+                      },
                     ),
                   )
                 ],

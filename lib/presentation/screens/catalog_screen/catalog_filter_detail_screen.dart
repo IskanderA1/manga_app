@@ -85,14 +85,9 @@ class _CatalogFilterDetailScreenState extends State<CatalogFilterDetailScreen> {
               ),
               ...List.generate(
                 filters.length,
-                (index) => Padding(
-                  padding: EdgeInsets.only(
-                      top: index != 0 ? 8 : 16,
-                      bottom: index == filters.length - 1 ? 80 : 0),
-                  child: FilterDetailItemWidget(
-                    filter: filters[index],
-                    filterController: filterController,
-                  ),
+                (index) => FilterDetailItemWidget(
+                  filter: filters[index],
+                  filterController: filterController,
                 ),
               )
             ],

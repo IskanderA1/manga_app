@@ -12,13 +12,14 @@ class MRHeaderWidget extends StatelessWidget {
     Key? key,
     required this.title,
     this.centerTitle = false,
-    this.hasBackButton = false, this.actions,
+    this.hasBackButton = false,
+    this.actions,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(0, 40, 16, 0),
+      margin: const EdgeInsets.fromLTRB(0, 0, 16, 0),
       child: AppBar(
         elevation: 0,
         centerTitle: centerTitle,

@@ -9,7 +9,10 @@ class ImageWidget extends StatelessWidget {
   final double? width;
   final double? height;
   final String? imageUrl;
+  final double? placeholderWidth;
+  final double? placeholderHeight;
   final BoxFit fit;
+  final bool useCash;
   final BorderRadius? borderRadius;
 
   const ImageWidget(
@@ -17,11 +20,11 @@ class ImageWidget extends StatelessWidget {
     Key? key,
     this.width = 120,
     this.height = 160,
-    this.placeholderHeight,
-    this.placeholderWidth,
     this.fit = BoxFit.fitWidth,
     this.borderRadius,
     this.useCash = true,
+    this.placeholderWidth,
+    this.placeholderHeight,
   }) : super(key: key);
 
   @override

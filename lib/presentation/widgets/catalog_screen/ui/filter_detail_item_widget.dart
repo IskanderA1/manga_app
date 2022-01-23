@@ -14,44 +14,50 @@ class FilterDetailItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        final tempFilters = [...filterController.value];
-        if (tempFilters.contains(filter)) {
-          tempFilters.remove(filter);
-        } else {
-          tempFilters.add(filter);
-        }
-        filterController.value = tempFilters;
-      },
-      child: ListTile(
-        horizontalTitleGap: 0,
-        minLeadingWidth: 15,
-        tileColor: kPurple500Color,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              child: Text(
-                filter.name,
-                style: kTextFieldStyle,
-              ),
-            ),
-          ],
-        ),
-        trailing: ValueListenableBuilder<List<FilterModel>>(
-          valueListenable: filterController,
-          builder: (context, value, child) {
-            if (value.contains(filter)) {
-              return child!;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        InkWell(
+          onTap: () {
+            final tempFilters = [...filterController.value];
+            if (tempFilters.contains(filter)) {
+              tempFilters.remove(filter);
+            } else {
+              tempFilters.add(filter);
             }
-            return const SizedBox();
+            filterController.value = tempFilters;
           },
-          child: const Icon(Icons.check),
+          child: ListTile(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: Text(
+                    filter.name,
+                    style: kTextFieldStyle,
+                  ),
+                ),
+              ],
+            ),
+            trailing: ValueListenableBuilder<List<FilterModel>>(
+              valueListenable: filterController,
+              builder: (context, value, child) {
+                if (value.contains(filter)) {
+                  return child!;
+                }
+                return const SizedBox();
+              },
+              child: const Icon(Icons.check),
+            ),
+          ),
         ),
-      ),
+        const Divider(
+          height: 1,
+          color: kWhiteColor,
+        ),
+      ],
     );
   }
 }

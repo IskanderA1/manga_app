@@ -17,39 +17,45 @@ class FilterItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final filters = currentFilters.where((element) => element.type == filter);
-    return InkWell(
-      onTap: onTap,
-      child: ListTile(
-        horizontalTitleGap: 0,
-        minLeadingWidth: 15,
-        tileColor: kPurple500Color,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              flex: 3,
-              child: Text(
-                filter.name,
-                style: kTextFieldStyle,
-              ),
-            ),
-            if (filters.isNotEmpty)
-              Expanded(
-                flex: 2,
-                child: Text(
-                  filters.map((e) => e.name).join(', '),
-                  style: kBodyTextStyle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.end,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        InkWell(
+          onTap: onTap,
+          child: ListTile(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    filter.name,
+                    style: kTextFieldStyle,
+                  ),
                 ),
-              ),
-          ],
+                if (filters.isNotEmpty)
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      filters.map((e) => e.name).join(', '),
+                      style: kBodyTextStyle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+              ],
+            ),
+            trailing: const Icon(Icons.chevron_right),
+          ),
         ),
-        trailing: const Icon(Icons.chevron_right),
-      ),
+        const Divider(
+          height: 1,
+          color: kWhiteColor,
+        ),
+      ],
     );
   }
 }

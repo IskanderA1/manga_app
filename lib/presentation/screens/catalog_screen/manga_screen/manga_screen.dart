@@ -11,6 +11,7 @@ import 'package:manga_app/presentation/screens/navigator/navigator.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/manga_bloc/manga_detail_bloc.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/ui/manga_screen/label_widget.dart';
 import 'package:manga_app/presentation/widgets/catalog_screen/ui/manga_screen/manga_detail_app_bar_widget.dart';
+import 'package:manga_app/presentation/widgets/catalog_screen/ui/manga_screen/manga_detail_loading_widget.dart';
 import 'package:manga_app/presentation/widgets/general/mr_button_widget.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -18,8 +19,7 @@ import 'package:routemaster/routemaster.dart';
 class MangaDetailScreen extends StatefulWidget {
   final String titleName;
 
-  const MangaDetailScreen({Key? key, required this.titleName})
-      : super(key: key);
+  const MangaDetailScreen({Key? key, required this.titleName}) : super(key: key);
 
   @override
   _MangaDetailScreenState createState() => _MangaDetailScreenState();
@@ -57,14 +57,14 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                 slivers: [
                   SliverPersistentHeader(
                     delegate: MangaDetailAppBarWidget(
-                      manga?.img != null
-                          ? MangaRepository.mainUrl + manga!.img
-                          : null,
+                      manga?.img != null ? MangaRepository.mainUrl + manga!.img : null,
                       size.height / 1.5,
                     ),
                     pinned: true,
                   ),
-                  if (manga != null)
+                  if (state.isLoading)
+                    const MangaDetailLoadingWidget()
+                  else if (manga != null)
                     SliverList(
                       delegate: SliverChildListDelegate(
                         [
@@ -151,8 +151,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                               style: kTextFieldStyle,
                             ),
                           ),
-                          if (((manga.branches.isNotEmpty &&
-                                  manga.firstChapter != null ||
+                          if (((manga.branches.isNotEmpty && manga.firstChapter != null ||
                               manga.countChapters != 0)))
                             const SizedBox(height: 80),
                         ],
@@ -183,8 +182,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                             MRButtonWidget(
                               onPressed: () async {
                                 final result =
-                                    await Navigator.of(context, rootNavigator: true)
-                                        .push(
+                                    await Navigator.of(context, rootNavigator: true).push(
                                   MaterialPageRoute(
                                     builder: (context) => MangaChaptersScreen(
                                       branchId: manga.branches.first.id,
@@ -217,8 +215,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                                 ],
                               ),
                             ),
-                          if (manga.firstChapter != null &&
-                              manga.branches.isNotEmpty)
+                          if (manga.firstChapter != null && manga.branches.isNotEmpty)
                             MRButtonWidget(
                               onPressed: () {
                                 Routemaster.of(context).push(

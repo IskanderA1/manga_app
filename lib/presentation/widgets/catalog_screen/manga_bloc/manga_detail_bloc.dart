@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:manga_app/domain/entitys/manga/manga_detail_model.dart';
+import 'package:manga_app/domain/entitys/manga/manga_detail/manga_detail_model.dart';
 import 'package:manga_app/domain/repositories/manga_repository.dart';
 
 part 'manga_detail_event.dart';

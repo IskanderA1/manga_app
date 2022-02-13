@@ -1,10 +1,10 @@
-import 'package:manga_app/domain/entitys/manga/manga_chapter_model.dart';
-import 'package:manga_app/domain/entitys/manga/page_model.dart';
+import 'package:manga_app/domain/entitys/manga/manga_chapter/manga_chapter_model.dart';
+import 'package:manga_app/domain/entitys/manga/page/page_model.dart';
 import 'package:manga_app/domain/entitys/core/response_model.dart';
 import 'package:manga_app/domain/entitys/catalog/filter_model.dart';
 import 'package:manga_app/domain/entitys/catalog/manga_response.dart';
 import 'package:manga_app/domain/entitys/catalog/sort_model.dart';
-import 'package:manga_app/domain/entitys/manga/manga_detail_model.dart';
+import 'package:manga_app/domain/entitys/manga/manga_detail/manga_detail_model.dart';
 
 abstract class MangaRepository {
   static const mainUrl = 'https://api.remanga.org';

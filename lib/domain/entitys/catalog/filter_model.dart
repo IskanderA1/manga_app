@@ -45,34 +45,35 @@ extension FilterTypeExtension on FilterType {
 
 /// модель фильтра манги
 class FilterModel extends Equatable {
-  final FilterType type;
+  final FilterType? type;
   final int filterId;
   final String name;
 
-  const FilterModel(this.type, this.filterId, this.name);
+  const FilterModel(this.filterId, this.name, [this.type]);
 
-  factory FilterModel.fromJson(FilterType type, dynamic json) {
-    return FilterModel(type, json['id'], json['name']);
+  factory FilterModel.fromJson(dynamic json) {
+    return FilterModel(json['id'], json['name']);
   }
 
-  static FilterModel? tryFromJson(String type, dynamic json) {
-    final filterType = FilterType.values.where((e) => e.value == type);
-    if (filterType.isNotEmpty) {
-      return FilterModel(filterType.first, json['id'], json['name']);
-    }
-    return null;
+  factory FilterModel.fromJsonWithType(FilterType type, dynamic json) {
+    return FilterModel(json['id'], json['name'], type);
   }
 
-  static List<FilterModel> fromJsonList(String type, dynamic json) {
-    final filterType = FilterType.values.where((e) => e.value == type);
-    final result = <FilterModel>[];
-    if (filterType.isNotEmpty) {
-      for (var element in List.of(json)) {
-        result.add(FilterModel.fromJson(filterType.first, element));
-      }
-    }
-    return result;
-  }
+  // static FilterModel tryFromJson(String type, dynamic json) {
+  //   final filterType = FilterType.values.where((e) => e.value == type);
+  //   return FilterModel(json['id'], json['name'],filterType.first);
+  // }
+
+  // static List<FilterModel> fromJsonList(String type, dynamic json) {
+  //   final filterType = FilterType.values.where((e) => e.value == type);
+  //   final result = <FilterModel>[];
+  //   if (filterType.isNotEmpty) {
+  //     for (var element in List.of(json)) {
+  //       result.add(FilterModel.fromJson(filterType.first, element));
+  //     }
+  //   }
+  //   return result;
+  // }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

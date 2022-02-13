@@ -4,9 +4,9 @@ import 'package:manga_app/domain/entitys/core/response_model.dart';
 import 'package:manga_app/domain/entitys/catalog/filter_model.dart';
 import 'package:manga_app/domain/entitys/catalog/manga_response.dart';
 import 'package:manga_app/domain/entitys/catalog/sort_model.dart';
-import 'package:manga_app/domain/entitys/manga/manga_chapter_model.dart';
-import 'package:manga_app/domain/entitys/manga/manga_detail_model.dart';
-import 'package:manga_app/domain/entitys/manga/page_model.dart';
+import 'package:manga_app/domain/entitys/manga/manga_chapter/manga_chapter_model.dart';
+import 'package:manga_app/domain/entitys/manga/manga_detail/manga_detail_model.dart';
+import 'package:manga_app/domain/entitys/manga/page/page_model.dart';
 import 'package:manga_app/domain/repositories/manga_repository.dart';
 
 class MangaRepositoryImpl extends MangaRepository {
@@ -46,9 +46,8 @@ class MangaRepositoryImpl extends MangaRepository {
         for (var type in FilterType.values) {
           final filters = data['content'][type.value];
           if (filters != null) {
-            filtersMap[type] = (filters as List)
-                .map((json) => FilterModel.fromJson(type, json))
-                .toList();
+            filtersMap[type] =
+                (filters as List).map((json) => FilterModel.fromJsonWithType(type, json)).toList();
           }
         }
         return ResponseModel.success(filtersMap);
@@ -84,11 +83,12 @@ class MangaRepositoryImpl extends MangaRepository {
       'page': (page ?? 0) + 1,
     };
     for (var element in currentFilters) {
-      queryParameters[element.type.value] = element.filterId;
+      if (element.type != null) {
+        queryParameters[element.type!.value] = element.filterId;
+      }
     }
     if (sortBy != null) {
-      queryParameters['ordering'] =
-          '${sortBy.ascending ? '' : '-'}${sortBy.sortType.value}';
+      queryParameters['ordering'] = '${sortBy.ascending ? '' : '-'}${sortBy.sortType.value}';
     }
     try {
 //      print(queryParameters);
@@ -235,9 +235,8 @@ class MangaRepositoryImpl extends MangaRepository {
         },
       );
       if (data['content'] != null) {
-        return ResponseModel.success((data['content'] as List)
-            .map((e) => MangaChapterModel.fromJson(e))
-            .toList());
+        return ResponseModel.success(
+            (data['content'] as List).map((e) => MangaChapterModel.fromJson(e)).toList());
       } else {
         print("Не удалось загрузить главы манги");
         return ResponseModel.error('Не удалось загрузить главы манги');
@@ -270,8 +269,7 @@ class MangaRepositoryImpl extends MangaRepository {
       MetricService.sendEvent(
         'getPagesByChapters',
         attributes: {
-          'dataNotNull': data['content']['pages'] != null &&
-              data['content']['pages'].isNotEmpty,
+          'dataNotNull': data['content']['pages'] != null && data['content']['pages'].isNotEmpty,
           'msg': data['msg'],
         },
       );

@@ -57,7 +57,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                 slivers: [
                   SliverPersistentHeader(
                     delegate: MangaDetailAppBarWidget(
-                      manga?.img != null ? MangaRepository.mainUrl + manga!.img : null,
+                      manga?.img != null ? MangaRepository.mainUrl + manga!.img.high : null,
                       size.height / 1.5,
                     ),
                     pinned: true,
@@ -153,6 +153,7 @@ class _MangaDetailScreenState extends State<MangaDetailScreen> {
                           ),
                           if (((manga.branches.isNotEmpty && manga.firstChapter != null ||
                               manga.countChapters != 0)))
+                            //manga.branches.first.copyWith()
                             const SizedBox(height: 80),
                         ],
                       ),
